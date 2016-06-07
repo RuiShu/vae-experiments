@@ -17,4 +17,5 @@ Here is the code for some of the experiments I did with variational autoencoders
 * [torch-hdf5](https://github.com/deepmind/torch-hdf5). HDF5 interace for torch.
 * [lfs](https://keplerproject.github.io/luafilesystem). Luafilesystem for file manipulation.
 * [penlight](https://github.com/stevedonovan/Penlight). Commandline argument parser.
-
+* [image](https://github.com/torch/image). Provides support for reading images.
+* [threads](https://github.com/torch/threads). For multi-threaded data loading.
