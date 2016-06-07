@@ -58,8 +58,10 @@ I should add, however, that I am not sure if the reparameterization trick still 
 
 # Some Results
 Using the standard Variational Autoencoder, multi-modalities can cause great pain when trying to scale to higher latent-space dimensionality. For 10-dimensional `z`, sampling from a Gaussian prior v. a Mixture of Gaussian prior (1000 components) yields noticably different results,
+
 <img src="images/vae-z10.png" width="350">
 <img src="images/gmm-z10-1000.png" width="350">
+
 Using a Mixture of Gaussian priors allows one to overcome multi-modality in the data distribution almost by reserving a separate, discontinuous manifold for each modality of the data distribution. Furthermore, the center of each Gaussian component in the prior can potentially be used as a means of determining the "top-k characteristic" images from the distribution, where `k` is the number of Gaussian components.
 ![](images/gmm-characteristic-z10-1000.png)
 The ability to scale to higher dimensional latent variables is important, because if the number of latent variables is too low, the manifold will not be able to capture all of the complex variations present in the data distribution. In the extreme case where the number of latent variables is zero, the model would only ever produce a single sample that is the global average of all the data from the training set.
