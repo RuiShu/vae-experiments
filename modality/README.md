@@ -22,7 +22,7 @@ For completely, I have also included `theta`, which describes the parameter weig
 
 This inference problem can be considered under the variational Bayesian inference (VBI) framework, which approximates p(`z`|`x`) (very likely an intractable problem) with a simpler distribution q(`z`|`x`). Here, note again that q(`z`|`x`) can be thought of as a mapping from `x` to q(`z`|`x`), we apply the same trick again, and assert the existence of a neural network (called an `encoder`) such that,
 ```
-parameters of q(`z`|`x`) = encoder(x; phi)
+parameters of q(`z`|`x`) := encoder(x; phi)
 ```
 Ultimately, for a given sample `x`, VBI formulates the problem as one of KL-minimization:
 ```
@@ -37,6 +37,10 @@ Remarkably, q(`z`|`x`), p(`z`), and p(`x`|`z`) are all well-defined expressions 
 L = KL(Normal(encoder(x; phi)) || p(z)) + \Expectation_{z ~ Normal(encoder(x;phi))}[Normal(x; decoder(z;theta))]
 ```
 As is the standard practice, we assume that we are only ever dealing with Gaussian distributions with diagonal covariance matrices. We can then maximize the variational lowerbound by adjusting `phi` and `theta` using stochastic gradient descent.
+
+Another way to interpret the variational lowerbound objective function is to consider the problem as a restricted information channel,
+![](images/alt.png)
+where `z` should contain the necessary information to reconstruct `x`. Regularization of `z` (via the KL-divergence term in the variational lowerbound) ensures `z` has a nice distribution, so that we can sample from the prior during test-time as part of our generative model.
 
 # Limitations of the Standard Variational Autoencoder and the Possible Fix
 A key limitations of the standard VAE is when the data distribution cannot cannot be learned (i.e. the learned p(`z`)p(`x`|`z`; `theta`) never equals the true distribution p(`x`)) when operating under the constraint that both the prior p(`z`) *and* the posterior approximation q(`z`|`x`) are Gaussians. For fans of reddit, [here is an excellent discussion](https://www.reddit.com/r/MachineLearning/comments/30isct/consistency_guarantees_for_variational/) on this issue by the original author Diederik Kingma.
